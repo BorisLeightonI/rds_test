@@ -56,27 +56,27 @@ Promise.all([p1, p2]).then(values => {
     return {libros, autores:Array.from(autoresSet).map(e => [e]), categorias:Array.from(categoriasSet).map(e => [e])};
 }).then(({libros, autores, categorias}) => {
     // console.log(libros);
-    console.log(autores);
-    console.log(categorias);
+    // console.log(autores);
+    // console.log(categorias);
 
     const { dropTables } = require('./dropTablesSqlStatements.js');
     const connection = require("./config");
     connection.query('drop database if exists bookstore', (err, results, fields)=>{
         if(err) console.log(err.message);
-        console.log('results', results);
+        // console.log('results', results);
     });
     connection.query('create database if not exists bookstore', (err, results, fields)=>{
         if(err) console.log(err.message);
-        console.log('results', results);
+        // console.log('results', results);
     });
     connection.query('use bookstore', (err, results, fields)=>{
         if(err) console.log(err.message);
-        console.log('results', results);
+        // console.log('results', results);
     });
     
     connection.query(dropTables, (err, results, fields)=>{
         if(err) console.error(err.message);
-        console.log(results);
+        // console.log(results);
     })
     
       createTables.map(createTable => connection.query(createTable, 
