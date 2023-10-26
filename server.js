@@ -22,7 +22,7 @@ app.get('/', (req, res)=>{
     });
     connection.query('select * from autor', (err, results, fields)=>{
         if(err) console.log(err.message);
-        console.log(results.name);
+        console.log(results.map(result => ({...result})));
     });
     res.status(200).json({message: 'ok'});
 });
