@@ -36,8 +36,9 @@ app.get('/', (req, res)=>{
     connection.query(`select * from libro where id_libro >= ? and id_libro <= ?;`, [min, max], (err, results, fields)=>{
         if(err) console.log(err.message);
         libros = results.map(result => ({...result}));
+        res.status(200).json({message: 'ok', libros, categorias, autores});
     });
-    res.status(200).json({message: 'ok', libros, categorias, autores});
+    
 });
 
 const server = app.listen(port, ()=>console.log('Servidor escuchando peticiones http en puerto', server.address()))
