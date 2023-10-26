@@ -1,4 +1,5 @@
 require('./testing_run_fetch_file');
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 
