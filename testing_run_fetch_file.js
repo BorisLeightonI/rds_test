@@ -59,8 +59,20 @@ Promise.all([p1, p2]).then(values => {
     console.log(autores);
     console.log(categorias);
 
-    const connection = require("./config");
     const { dropTables } = require('./dropTablesSqlStatements.js');
+    const connection = require("./config");
+    connection.query('drop database if exists bookstore', (err, results, fields)=>{
+        if(err) console.log(err.message);
+        console.log('results', results);
+    });
+    connection.query('create database if not exists bookstore', (err, results, fields)=>{
+        if(err) console.log(err.message);
+        console.log('results', results);
+    });
+    connection.query('use bookstore', (err, results, fields)=>{
+        if(err) console.log(err.message);
+        console.log('results', results);
+    });
     
     connection.query(dropTables, (err, results, fields)=>{
         if(err) console.error(err.message);
