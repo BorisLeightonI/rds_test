@@ -55,9 +55,9 @@ Promise.all([p1, p2]).then(values => {
 
     return {libros, autores:Array.from(autoresSet), categorias:Array.from(categoriasSet)};
 }).then(({libros, autores, categorias}) => {
-    console.log(libros);
-    console.log(autores);
-    console.log(categorias);
+    // console.log(libros);
+    // console.log(autores);
+    // console.log(categorias);
 
     const connection = require("./config");
     const { dropTables } = require('./dropTablesSqlStatements.js');
