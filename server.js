@@ -13,6 +13,7 @@ const port = process.env.PORT;
 
 app.get('/', (req, res)=>{
     const {min, max} = req.query;
+    console.log('min', min, 'max', max);
     const connection = require('./config');
     let autores = 0;
     let categorias = 0;
@@ -23,15 +24,15 @@ app.get('/', (req, res)=>{
         // console.log('results', results);
         console.log(fields);
     });
-    connection.query(`select * from autor where id_autor between '${min}' and '${max}';`, (err, results, fields)=>{
+    connection.query(`select * from autor where id_autor >= ? and id_ <= ?;`, [min, max], (err, results, fields)=>{
         if(err) console.log(err.message);
         autores = results.map(result => ({...result}));
     });
-    connection.query(`select * from categoria where id_categoria between '${min}' and '${max}';`, (err, results, fields)=>{
+    connection.query(`select * from categoria where id_categoria >= ? and id_ <= ?;`, [min, max], (err, results, fields)=>{
         if(err) console.log(err.message);
         categorias = results.map(result => ({...result}));
     });
-    connection.query(`select * from libro where id_libro between '${min}' and '${max}';`, (err, results, fields)=>{
+    connection.query(`select * from libro where id_libro >= ? and id_ <= ?;`, [min, max], (err, results, fields)=>{
         if(err) console.log(err.message);
         libros = results.map(result => ({...result}));
     });
