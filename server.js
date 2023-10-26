@@ -24,7 +24,7 @@ app.get('/', (req, res)=>{
         // console.log('results', results);
         console.log(fields);
     });
-    connection.query(`select * from autor where id_autor >= ? and id_autor <= ?;`, [min, max], (err, results, fields)=>{
+    connection.query(`select * from autor where id_autor >= 1;`, (err, results, fields)=>{
         if(err) console.log(err.message);
         autores = results.map(result => ({...result}));
     });
