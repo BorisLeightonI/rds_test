@@ -53,7 +53,7 @@ Promise.all([p1, p2]).then(values => {
         row = [];        
     }
 
-    return {libros, autores:[Array.from(autoresSet).map(e => [e])], categorias:[Array.from(categoriasSet).map(e => [e])]};
+    return {libros, autores:Array.from(autoresSet).map(e => [e]), categorias:Array.from(categoriasSet).map(e => [e])};
 }).then(({libros, autores, categorias}) => {
     // console.log(libros);
     console.log(autores);
