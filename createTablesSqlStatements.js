@@ -3,8 +3,7 @@ const createTables = [
         id_autor int(11) NOT NULL,
         nombre varchar(250) NOT NULL UNIQUE,
         PRIMARY KEY (id_autor) ,
-      ) ENGINE=InnoDB;
-    );`,
+      ) ENGINE=InnoDB;`,
     `CREATE TABLE categoria (
         id_categoria int(11) NOT NULL,
         nombre varchar(250) NOT NULL UNIQUE,
