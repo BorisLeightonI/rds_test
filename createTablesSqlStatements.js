@@ -35,7 +35,7 @@ const createTables = [
         id_Categoria int(11) NOT NULL,
         PRIMARY KEY (id_LibroCategoria),
         CONSTRAINT fk_categoria FOREIGN KEY (id_Categoria) REFERENCES categoria (id_categoria) ON UPDATE CASCADE,
-        CONSTRAINT fk_libro FOREIGN KEY (id_Libro) REFERENCES libro (id_libro) ON UPDATE CASCADE
+        CONSTRAINT fk_Libro FOREIGN KEY (id_Libro) REFERENCES libro (id_libro) ON UPDATE CASCADE
       ) ENGINE=InnoDB;`
     ];
 module.exports = {createTables};
