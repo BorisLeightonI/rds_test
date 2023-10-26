@@ -13,7 +13,7 @@ const port = process.env.PORT;
 
 app.get('/', (req, res)=>{
     const connection = require('./config');
-
+    console.log('QUERY:',req.query);
     connection.query('use bookstore', (err, results, fields)=>{
         if(err) console.log(err.message);
         // console.log('results', results);
