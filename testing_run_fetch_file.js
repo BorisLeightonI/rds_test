@@ -59,50 +59,49 @@ Promise.all([p1, p2]).then(values => {
     console.log(autores);
     console.log(categorias);
 
+    const connection = require("./config");
+    const { dropTables } = require('./dropTablesSqlStatements.js');
+    
+    connection.query(dropTables, (err, results, fields)=>{
+        if(err) console.error(err.message);
+        console.log(results);
+    })
+    
+      createTables.map(createTable => connection.query(createTable, 
+        (err, results, fields)=>{
+        if(err) return console.error(err.message);
+    }));
+    
+    // insert statment
+    let insertSql = `INSERT INTO 
+    libro(id_libro,titulo, isbn, paginas, fechaPublicacion, imagen, descripcionCorta, descripcionLarga, status) 
+    VALUES ?`;
+    
+    // execute the insert statment
+    connection.query(insertSql, [libros], (err, results, fields) => {
+        if (err) return console.error(err.message);
+        // get inserted rows
+        console.log('Row inserted:' + results.affectedRows);
+      });
+    
+    insertSql = `INSERT INTO autor(nombre) VALUES ?`;
+    connection.query(insertSql, [autores], (err, results, fields) => {
+        if (err) return console.error(err.message);
+        // get inserted rows
+        console.log('Row inserted:' + results.affectedRows);
+      });
+    insertSql = `INSERT INTO categoria (nombre) VALUES ?`;
+    connection.query(insertSql, [categorias], (err, results, fields) => {
+        if (err) return console.error(err.message);
+        // get inserted rows
+        console.log('Row inserted:' + results.affectedRows);
+      });
+    
+    connection.end(function(err) {
+        if (err) {
+          return console.log('error:' + err.message);
+        }
+        console.log('Close the database connection.');
+      });
 })
 
-const connection = require("./config");
-const { dropTables } = require('./dropTablesSqlStatements.js');
-
-connection.query(dropTables, (err, results, fields)=>{
-    if(err) console.error(err.message);
-    console.log(results);
-})
-
-//   createTables.map(createTable => connection.query(createTable, 
-//     (err, results, fields)=>{
-//     if(err) return console.error(err.message);
-// }));
-
-
-// insert statment
-let insertSql = `INSERT INTO 
-libro(id_libro,titulo, isbn, paginas, fechaPublicacion, imagen, descripcionCorta, descripcionLarga, status) 
-VALUES ?`;
-
-// execute the insert statment
-// connection.query(insertSql, [libros], (err, results, fields) => {
-//     if (err) return console.error(err.message);
-//     // get inserted rows
-//     console.log('Row inserted:' + results.affectedRows);
-//   });
-
-// insertSql = `INSERT INTO autor(nombre) VALUES ?`;
-// connection.query(insertSql, [autores], (err, results, fields) => {
-//     if (err) return console.error(err.message);
-//     // get inserted rows
-//     console.log('Row inserted:' + results.affectedRows);
-//   });
-// insertSql = `INSERT INTO categoria (nombre) VALUES ?`;
-// connection.query(insertSql, [categorias], (err, results, fields) => {
-//     if (err) return console.error(err.message);
-//     // get inserted rows
-//     console.log('Row inserted:' + results.affectedRows);
-//   });
-
-connection.end(function(err) {
-    if (err) {
-      return console.log('error:' + err.message);
-    }
-    console.log('Close the database connection.');
-  });
