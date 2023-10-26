@@ -12,8 +12,9 @@ app.use(express.json());
 const port = process.env.PORT;
 
 app.get('/', (req, res)=>{
+    const {min, max} = req.query;
     const connection = require('./config');
-    console.log('QUERY:',req.query);
+    
     connection.query('use bookstore', (err, results, fields)=>{
         if(err) console.log(err.message);
         // console.log('results', results);
@@ -21,7 +22,7 @@ app.get('/', (req, res)=>{
     });
     connection.query('select * from autor', (err, results, fields)=>{
         if(err) console.log(err.message);
-        console.log(results);
+        console.log(results.name);
     });
     res.status(200).json({message: 'ok'});
 });
