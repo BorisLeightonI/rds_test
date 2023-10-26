@@ -13,10 +13,7 @@ const port = process.env.PORT;
 
 app.get('/', (req, res)=>{
     const connection = require('./config');
-    connection.connect(err=>{
-        if(err) return console.error('error:', err.message);
-        console.log('Connected to MySQL server');
-    });
+
     connection.query('use bookstore', (err, results, fields)=>{
         if(err) console.log(err.message);
         // console.log('results', results);

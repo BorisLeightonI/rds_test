@@ -109,11 +109,11 @@ Promise.all([p1, p2]).then(values => {
         console.log('Row inserted:' + results.affectedRows);
       });
     
-    connection.end(function(err) {
-        if (err) {
-          return console.log('error:' + err.message);
-        }
-        console.log('Close the database connection.');
-      });
+    // connection.end(function(err) {
+    //     if (err) {
+    //       return console.log('error:' + err.message);
+    //     }
+    //     console.log('Close the database connection.');
+    //   });
 })
 
