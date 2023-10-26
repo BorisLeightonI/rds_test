@@ -1,11 +1,11 @@
 const createTables = [
     `CREATE TABLE autor (
-        id_autor int(11) NOT NULL,
+        id_autor int(11) NOT NULL AUTO_INCREMENT,
         nombre varchar(250) NOT NULL UNIQUE,
         PRIMARY KEY (id_autor)
       ) ENGINE=InnoDB;`,
     `CREATE TABLE categoria (
-        id_categoria int(11) NOT NULL,
+        id_categoria int(11) NOT NULL AUTO_INCREMENT,
         nombre varchar(250) NOT NULL UNIQUE,
         PRIMARY KEY (id_categoria)
       ) ENGINE=InnoDB;`,
