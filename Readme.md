@@ -8,3 +8,6 @@ usuario: ec2-user
 password: adminadmin
 Desde navegador funciona: http://18.230.21.142:8080/?min=0&max=2
 Dejé solo dos valores para Libros.
+
+hice un pequeño front-end pero no hace lo que debe hacer.
+[git@github.com:BorisLeightonI/rds_test_front.git]
