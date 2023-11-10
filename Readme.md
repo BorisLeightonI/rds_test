@@ -15,3 +15,9 @@ hice un pequeño front-end, por razones de tiempo y quehaceres en trabajo me enf
 
 ![][Diagrama]
 [Diagrama]: https://github.com/BorisLeightonI/rds_test/blob/main/Diagrama.drawio.png
+
+![Black cat][Black]
+
+
+
+[Black]: https://upload.wikimedia.org/wikipedia/commons/a/a3/81_INF_DIV_SSI.jpg
