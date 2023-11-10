@@ -13,5 +13,5 @@ hice un pequeño front-end, por razones de tiempo y quehaceres en trabajo me enf
 [git@github.com:BorisLeightonI/rds_test_front.git]
 [https://github.com/BorisLeightonI/rds_test_front]
 
-Diagrama
-![Diagrama]:[https://github.com/BorisLeightonI/rds_test/blob/main/Diagrama.drawio.png]
+![][Diagrama]
+[Diagrama]: https://github.com/BorisLeightonI/rds_test/blob/main/Diagrama.drawio.png
