@@ -13,11 +13,4 @@ hice un pequeño front-end, por razones de tiempo y quehaceres en trabajo me enf
 [git@github.com:BorisLeightonI/rds_test_front.git]
 [https://github.com/BorisLeightonI/rds_test_front]
 
-![][Diagrama]
-[Diagrama]: https://github.com/BorisLeightonI/rds_test/blob/main/Diagrama.drawio.png
-
-![Black cat][Black]
-
-
-
-[Black]: https://upload.wikimedia.org/wikipedia/commons/a/a3/81_INF_DIV_SSI.jpg
+![Diagrama](https://github.com/BorisLeightonI/rds_test/blob/main/Diagrama.drawio.png?raw=true)
