@@ -12,3 +12,4 @@ Dejé solo dos valores para Libros.
 hice un pequeño front-end, por razones de tiempo y quehaceres en trabajo me enfoqué más en back-end.
 [git@github.com:BorisLeightonI/rds_test_front.git]
 [https://github.com/BorisLeightonI/rds_test_front]
+[Diagrama]: https://github.com/BorisLeightonI/rds_test/blob/main/Diagrama.drawio.png
