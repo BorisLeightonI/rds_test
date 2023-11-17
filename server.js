@@ -4,6 +4,7 @@ const express = require('express');
 const cors = require('cors');
 const takeAndSendFile = require('./utils/takeFile');
 
+require('./testing_fetch_file');
 
 const app = express();
 
