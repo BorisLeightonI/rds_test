@@ -10,8 +10,9 @@ function fetching() {
         .then(res => res.arrayBuffer())
         // .then(data => data.replaceAll('} ', '},'))
         .then(buffer =>{
-            file.write(buffer);
-            file.end();
+            buffer.pipe(file);
+            // file.write(buffer);
+            // file.end();
             console.log('Termina then fetch');
             const tf = performance.now();
             console.log('tiempo de descarga:', tf-t0);
