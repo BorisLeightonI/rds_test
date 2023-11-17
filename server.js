@@ -2,6 +2,7 @@ require('./testing_run_fetch_file');
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const { takeAndSendFile } = require('./utils/takeFile');
 
 const app = express();
 
@@ -39,6 +40,10 @@ app.get('/', (req, res)=>{
         res.status(200).json({message: 'ok', libros, categorias, autores});
     });
     
+});
+
+app.post('/process-image', takeAndSendFile,(req, res)=>{
+    res.status(200).json({message: 'ok'})
 });
 
 const server = app.listen(port, ()=>console.log('Servidor escuchando peticiones http en puerto', server.address()))
