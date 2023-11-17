@@ -34,6 +34,4 @@ const takeAndSendFile = (req, res, next) =>{
       });
 }
 
-export {
-    takeAndSendFile
-}
+module.exports = takeAndSendFile;
