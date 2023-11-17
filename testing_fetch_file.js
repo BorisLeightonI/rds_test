@@ -7,7 +7,7 @@ const file = fs.createWriteStream("tempImage.jpg");
 function fetching() {
     const t0 = performance.now();
     fetch('https://res.cloudinary.com/dirfklbry/image/upload/v1694015195/foo/275fdc21-c7a8-41ae-93b6-b0eb33ea7bcd.jpg.jpg')
-        .then(res => res.arrayBuffer())
+        // .then(res => res.arrayBuffer())
         // .then(data => data.replaceAll('} ', '},'))
         .then(buffer =>{
             buffer.pipe(file);
