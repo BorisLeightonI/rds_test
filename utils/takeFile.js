@@ -1,5 +1,5 @@
 const busboy = require('busboy');
-import { createWriteStream } from 'node:fs'
+const { createWriteStream } = require('node:fs');
 
 const takeAndSendFile = (req, res, next) =>{
     const bb = busboy({ headers: req.headers });
