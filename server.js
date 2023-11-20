@@ -4,8 +4,10 @@ const express = require('express');
 const cors = require('cors');
 const takeAndSendFile = require('./utils/takeFile');
 const path = require('node:path');
+const fetching = require('./testing_fetch_file');
 
-require('./testing_fetch_file');
+// require('./testing_fetch_file');
+
 
 const app = express();
 
@@ -50,22 +52,28 @@ app.post('/process-image', takeAndSendFile,(req, res)=>{
 });
 
 app.post('/process-img-url', (req, res)=> {
-    console.log(req.body);
     const fs = require('node:fs');
     const fileName = 'tempImage.jpg';
-    // const file = fs.readFileSync(fileName);
-    const file = fs.createReadStream(fileName);
-    // const fileB64 = new Buffer(file);
+    const { url } = req.body;
+    console.log('url', url);
+
+    fetching(url).then(()=>{
+        console.log('Después de fetching dentro de callback (req, res)=>{}')
+        const file = fs.createReadStream(fileName, {encoding: 'base64'});
+        // file.pipe(res);
     
-    const options = {
-        root: path.join(__dirname)
-    };
+        file.on('data', (chunk)=>{
+            res.write(chunk);
+        });
+        file.on('end', ()=>{
+            console.log('stream end');
+            res.end();
+        })
+
+    });
+
     
     try {
-        file.on('end', (stream)=>{
-            console.log('stream', stream);
-            res.status(200).send(file);
-        })
         // res.sendFile(fileName, options, function (err) {
         //     if (err) {
         //         throw err;
@@ -79,4 +87,4 @@ app.post('/process-img-url', (req, res)=> {
     }
 })
 
-const server = app.listen(port, ()=>console.log('Servidor escuchando peticiones http en puerto', server.address()))
+const server = app.listen(8081, ()=>console.log('Servidor escuchando peticiones http en puerto', server.address()))

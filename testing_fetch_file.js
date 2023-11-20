@@ -1,22 +1,37 @@
 const fetch =  require('node-fetch');
 const fs = require('fs');
+const { spawn } = require('child_process');
 
-const file = fs.createWriteStream("tempImage.jpg");
 
-function fetching() {
+function fetching(url) {
+    const file = fs.createWriteStream("tempImage.jpg");
     const t0 = performance.now();
-    fetch('https://res.cloudinary.com/dirfklbry/image/upload/v1694015195/foo/275fdc21-c7a8-41ae-93b6-b0eb33ea7bcd.jpg.jpg')
-        .then(res =>{
+    const res =  fetch(url)
+        .then(ans =>{
 
-            res.body.pipe(file);
+            ans.body.pipe(file);//Cambiar
 
-            console.log('Termina then fetch');
+            console.log('Termina then fetch: Descarga de Imagen');
             const tf = performance.now();
-            console.log('tiempo de descarga:', tf-t0);
+            console.log('*   tiempo de descarga:', Math.round(tf-t0), 'ms');
+            
+        })
+        .then(()=>{
+            for (let i = 0; i < 1000000000; i++) {
+                const element = ++i;
+            }
+            console.log('THEN INTERMEDIO PARA PROCESAR IMAGEN');
+            const python = spawn('python3', ['test_OPenCV_readImg.py', 'arg1', 'arg2']);
+            python.on('message', (data)=>console.log('data', data));
+            python.stdin.on('data', (data)=>console.log(data.toString()));
+            python.on('close', (code)=>console.log('PYTHON FILE EXIT with code', code));
+            python.on('', (code)=>console.log('PYTHON FILE EXIT with code', code));
+
+
         })
         .catch(err => console.error(err))
         
-
+    return res;
 }
 // const https = require('https');
 
@@ -24,5 +39,6 @@ function fetching() {
 //   response.pipe(file);
 // });
 
-fetching();
+
 console.log('DESPUES DE FETCHING DATA');
+module.exports = fetching;
