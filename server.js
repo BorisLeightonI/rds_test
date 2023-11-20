@@ -53,15 +53,15 @@ app.post('/process-img-url', (req, res)=> {
     console.log(req.body);
     const fs = require('node:fs');
     const fileName = 'tempImage.jpg';
-    const file = fs.readFile(fileName);
-    const fileB64 = new Buffer(file);
+    const file = fs.readFileSync(fileName);
+    // const fileB64 = new Buffer(file);
 
     const options = {
         root: path.join(__dirname)
     };
  
     try {
-        res.status(200).send(fileB64);
+        res.status(200).send(file);
         // res.sendFile(fileName, options, function (err) {
         //     if (err) {
         //         throw err;
