@@ -51,20 +51,24 @@ app.post('/process-image', takeAndSendFile,(req, res)=>{
 
 app.post('/process-img-url', (req, res)=> {
     console.log(req.body);
+    const fs = require('node:fs');
+    const fileName = 'tempImage.jpg';
+    const file = fs.readFile(fileName);
+    const fileB64 = new Buffer(file);
 
     const options = {
         root: path.join(__dirname)
     };
  
-    const fileName = 'tempImage.jpg';
     try {
-        res.sendFile(fileName, options, function (err) {
-            if (err) {
-                throw err;
-            } else {
-                console.log('Sent:', fileName);
-            }
-        });
+        res.status(200).send(fileB64);
+        // res.sendFile(fileName, options, function (err) {
+        //     if (err) {
+        //         throw err;
+        //     } else {
+        //         console.log('Sent:', fileName);
+        //     }
+        // });
         
     } catch (error) {
         res.status(400).json({error})
