@@ -50,7 +50,24 @@ app.post('/process-image', takeAndSendFile,(req, res)=>{
 
 app.post('/process-img-url', (req, res)=> {
     console.log(req.body);
-    res.status(200).json({message: 'ok'});
+
+    const options = {
+        root: path.join(__dirname)
+    };
+ 
+    const fileName = 'tempFile.jpg';
+    try {
+        res.sendFile(fileName, options, function (err) {
+            if (err) {
+                throw err;
+            } else {
+                console.log('Sent:', fileName);
+            }
+        });
+        
+    } catch (error) {
+        res.status(400).json({error})
+    }
 })
 
 const server = app.listen(port, ()=>console.log('Servidor escuchando peticiones http en puerto', server.address()))
