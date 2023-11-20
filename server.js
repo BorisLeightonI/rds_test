@@ -56,7 +56,7 @@ app.post('/process-img-url', (req, res)=> {
         root: path.join(__dirname)
     };
  
-    const fileName = 'tempFile.jpg';
+    const fileName = 'tempImage.jpg';
     try {
         res.sendFile(fileName, options, function (err) {
             if (err) {
