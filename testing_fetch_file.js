@@ -8,7 +8,7 @@ function fetching(url) {
     const t0 = performance.now();
     const res =  fetch(url)
         .then(ans =>{
-            fs.writeFileSync('tempImage.jpg', ans.body.arrayBuffer())
+            fs.writeFileSync('tempImage.jpg', ans.arrayBuffer())
             // ans.body.pipe(file);//Escribe la imagen que corresponde a la url
 
             console.log('Termina primer then fetch: Descarga de Imagen');
