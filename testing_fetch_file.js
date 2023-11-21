@@ -8,11 +8,11 @@ function fetching(url) {
     const res =  fetch(url)
     .then(async ans =>{
             const file = fs.createWriteStream("tempImage.jpg");
-            file.on('open', console.log('open'));
-            file.on('close', console.log('close'));
-            file.on('finish', console.log('finish'));
-            file.on('pipe', console.log('pipe'));
-            file.on('unpipe', console.log('unpipe'));
+            file.on('open', ()=>console.log('open'));
+            file.on('close', ()=>console.log('close'));
+            file.on('finish', ()=>console.log('finish'));
+            file.on('pipe', ()=>console.log('pipe'));
+            file.on('unpipe', ()=>console.log('unpipe'));
             // const buffer = await ans.arrayBuffer();
             // console.log(buffer);
             // fs.writeFileSync('tempImage.jpg', buffer.buffer);
