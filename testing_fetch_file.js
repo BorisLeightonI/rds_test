@@ -21,7 +21,7 @@ function fetching(url) {
             //     const element = ++i;
             // }
             console.log('THEN INTERMEDIO PARA PROCESAR IMAGEN');
-            const python = spawn('python3', ['test_OPenCV_readImg.py', 'arg1', 'arg2']);
+            const python = spawn('python3', ['test_OpenCV_readImg.py', 'arg1', 'arg2']);
             python.on('message', (data)=>console.log('data', data));
             python.stdout.on('data', (data)=>console.log(data));
             python.on('close', (code)=>console.log('PYTHON FILE EXIT with code', code));
