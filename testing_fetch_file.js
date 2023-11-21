@@ -1,6 +1,6 @@
 const fetch =  require('node-fetch');
 const fs = require('fs');
-const { spawn } = require('child_process');
+const { spawnSync } = require('child_process');
 
 
 function fetching(url) {
@@ -9,25 +9,18 @@ function fetching(url) {
     const res =  fetch(url)
         .then(ans =>{
 
-            ans.body.pipe(file);//Cambiar
+            ans.body.pipe(file);//Escribe la imagen que corresponde a la url
 
-            console.log('Termina then fetch: Descarga de Imagen');
+            console.log('Termina primer then fetch: Descarga de Imagen');
             const tf = performance.now();
             console.log('*   tiempo de descarga:', Math.round(tf-t0), 'ms');
             
         })
         .then(()=>{
-            // for (let i = 0; i < 1000000000; i++) {
-            //     const element = ++i;
-            // }
             console.log('THEN INTERMEDIO PARA PROCESAR IMAGEN');
-            const python = spawn('python3', ['test_OpenCV_readImg.py', 'arg1', 'arg2']);
-            python.on('message', (data)=>console.log('data', data.toString()));
+            const python = spawnSync('python3', ['test_OpenCV_readImg.py', 'arg1', 'arg2']);
             python.stdout.on('data', (data)=>console.log(data.toString()));
             python.on('close', (code)=>console.log('PYTHON FILE EXIT with code', code));
-            python.on('', (code)=>console.log('PYTHON FILE EXIT with code', code));
-
-
         })
         .catch(err => console.error(err))
         

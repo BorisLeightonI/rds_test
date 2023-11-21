@@ -58,7 +58,7 @@ app.post('/process-img-url', (req, res)=> {
     console.log('url', url);
 
     fetching(url).then(()=>{
-        console.log('Después de fetching dentro de callback (req, res)=>{}')
+        console.log('Después de Descarga de Imagen, dentro de callback (req, res)=>{} en server')
         const file = fs.createReadStream(fileName, {encoding: 'base64'});
         // file.pipe(res);
     
