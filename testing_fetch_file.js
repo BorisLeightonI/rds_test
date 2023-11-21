@@ -7,18 +7,20 @@ function fetching(url) {
     const t0 = performance.now();
     const res =  fetch(url)
     .then(async ans =>{
-            const file = fs.createWriteStream("tempImage.jpg");
-            file.on('open', ()=>console.log('open'));
-            file.on('close', ()=>console.log('close'));
-            file.on('finish', ()=>console.log('finish'));
-            file.on('pipe', ()=>console.log('pipe'));
-            file.on('unpipe', ()=>console.log('unpipe'));
-            // const buffer = await ans.arrayBuffer();
+            // const file = fs.createWriteStream("tempImage.jpg");
+            // file.on('open', ()=>console.log('open'));
+            // file.on('close', ()=>console.log('close'));
+            // file.on('finish', ()=>console.log('finish'));
+            // file.on('pipe', ()=>console.log('pipe'));
+            // file.on('unpipe', ()=>console.log('unpipe'));
+            console.log('then fetch file from url')
+            const buffer = await ans.arrayBuffer();
+            console.log('Se crea buffer y se ingresa en writeFileSync')
             // console.log(buffer);
-            // fs.writeFileSync('tempImage.jpg', buffer.buffer);
-            ans.body.pipe(file);//Escribe la imagen que corresponde a la url
+            // ans.body.pipe(file);//Escribe la imagen que corresponde a la url
+            fs.writeFileSync('tempImage.jpg', Buffer.from(buffer));
 
-            console.log('Termina primer then fetch: Descarga de Imagen');
+            console.log('Termina primer then fetch: Descarga y escritura de Imagen ');
             const tf = performance.now();
             console.log('*   tiempo de descarga:', Math.round(tf-t0), 'ms');
             
