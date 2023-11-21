@@ -19,8 +19,10 @@ function fetching(url) {
         .then(()=>{
             console.log('THEN INTERMEDIO PARA PROCESAR IMAGEN');
             const python = spawnSync('python3', ['test_OpenCV_readImg.py', 'arg1', 'arg2']);
-            python.stdout.on('data', (data)=>console.log(data.toString()));
-            python.on('close', (code)=>console.log('PYTHON FILE EXIT with code', code));
+            console.log(python.stdout.toString());
+        
+            // python.stdout.on('data', (data)=>console.log(data.toString()));
+            // python.on('close', (code)=>console.log('PYTHON FILE EXIT with code', code));
         })
         .catch(err => console.error(err))
         
