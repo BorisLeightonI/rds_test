@@ -53,7 +53,7 @@ app.post('/process-image', takeAndSendFile,(req, res)=>{
 
 app.post('/process-img-url', (req, res)=> {
     const fs = require('node:fs');
-    const fileName = 'tempImage.jpg';
+    const fileName = 'tempImage_bordes.jpg';
     const { url } = req.body;
     console.log('url', url);
 
