@@ -17,13 +17,13 @@ function fetching(url) {
             
         })
         .then(()=>{
-            for (let i = 0; i < 1000000000; i++) {
-                const element = ++i;
-            }
+            // for (let i = 0; i < 1000000000; i++) {
+            //     const element = ++i;
+            // }
             console.log('THEN INTERMEDIO PARA PROCESAR IMAGEN');
             const python = spawn('python3', ['test_OPenCV_readImg.py', 'arg1', 'arg2']);
             python.on('message', (data)=>console.log('data', data));
-            python.stdin.on('data', (data)=>console.log(data.toString()));
+            python.stdout.on('data', (data)=>console.log(data));
             python.on('close', (code)=>console.log('PYTHON FILE EXIT with code', code));
             python.on('', (code)=>console.log('PYTHON FILE EXIT with code', code));
 
