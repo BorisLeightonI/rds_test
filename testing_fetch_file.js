@@ -4,12 +4,14 @@ const { spawnSync } = require('child_process');
 
 
 function fetching(url) {
-    const file = fs.createWriteStream("tempImage.jpg");
     const t0 = performance.now();
     const res =  fetch(url)
-        .then(ans =>{
-            fs.writeFileSync('tempImage.jpg', ans.body)
-            // ans.body.pipe(file);//Escribe la imagen que corresponde a la url
+    .then(async ans =>{
+            const file = fs.createWriteStream("tempImage.jpg");
+            // const buffer = await ans.arrayBuffer();
+            // console.log(buffer);
+            // fs.writeFileSync('tempImage.jpg', buffer.buffer);
+            ans.body.pipe(file);//Escribe la imagen que corresponde a la url
 
             console.log('Termina primer then fetch: Descarga de Imagen');
             const tf = performance.now();
