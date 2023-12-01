@@ -5,6 +5,7 @@ const cors = require('cors');
 const takeAndSendFile = require('./utils/takeFile');
 const path = require('node:path');
 const fetching = require('./testing_fetch_file');
+const runPython = require('./utils/run_python');
 
 // require('./testing_fetch_file');
 
@@ -47,8 +48,8 @@ const port = process.env.PORT;
     
 // });
 
-app.post('/process-image', takeAndSendFile,(req, res)=>{
-    res.status(200).json({message: 'ok'})
+app.post('/process-images', takeAndSendFile, runPython,(req, res)=>{
+    res.status(200).json({message: 'Imagenes recibidas y almacenadas'})
 });
 
 app.post('/process-img-url', (req, res)=> {
