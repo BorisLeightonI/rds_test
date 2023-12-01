@@ -1,8 +1,10 @@
 const { spawnSync } = require('child_process');
 
 function runPython(req, res, next) {
-    const python = spawnSync('python3', ['test_OpenCV_readImg.py', 'arg1', 'arg2']);
-    console.log(python.stdout.toString());
+    const python = spawnSync('python3', ['leerImagenes_obtenerMaximo.py', 'arg1', 'arg2']);
+    const scores =  python.stdout.toString();
+    req.body.scores = scores;
+    console.log(JSON.parse(scores));
     next();
 }
 

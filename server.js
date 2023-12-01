@@ -49,7 +49,8 @@ const port = process.env.PORT;
 // });
 
 app.post('/process-images', takeAndSendFile, runPython,(req, res)=>{
-    res.status(200).json({message: 'Imagenes recibidas y almacenadas'})
+    const { scores } = req.body;
+    res.status(200).json({message: 'Imagenes recibidas, almacenadas y analizadas', scores: JSON.parse(scores)})
 });
 
 app.post('/process-img-url', (req, res)=> {
