@@ -7,7 +7,7 @@ const takeAndSendFile = (req, res, next) =>{
 
     bb.on('file', (name, file, info) => {
       const { filename, encoding, mimeType } = info;
-      console.log(`File [${name}]: filename: %j, encoding: %j, mimeType: %j`,
+      console.log(`File [${filename}]: filename: %j, encoding: %j, mimeType: %j`,
         filename,
         encoding,
         mimeType
@@ -15,16 +15,14 @@ const takeAndSendFile = (req, res, next) =>{
       file.pipe(createWriteStream(filename));
       file
       .on('data', (data) => {
-        console.log(`File [${name}] got ${data.length} bytes`);
+        console.log(`File [${filename}] got ${data.length} bytes`);
       }).on('close', () => {
-        console.log(`File [${name}] done`);
+        console.log(`File [${filename}] done`);
       }).on('end', ()=>{
         console.log('Ready to send data to Python Script');
       });
     });
-    bb.on('field', (name, val, info) => {
-      console.log(`Field [${name}]: value: %j`, val);
-    });
+    bb.on('field', (name, val, info) => console.log(`Field [${name}]: value: %j`, val));
     bb.on('close', () => {
         console.log('Done parsing form!');
         next();
