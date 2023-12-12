@@ -3,7 +3,7 @@ const fs = require('fs');
 const { spawnSync } = require('child_process');
 
 
-function fetching(url) {
+async function fetching(url) {
     const t0 = performance.now();
     const res =  fetch(url)
     .then(async ans =>{
@@ -13,14 +13,14 @@ function fetching(url) {
             // file.on('finish', ()=>console.log('finish'));
             // file.on('pipe', ()=>console.log('pipe'));
             // file.on('unpipe', ()=>console.log('unpipe'));
-            console.log('then fetch file from url')
+            // console.log('then fetch file from url')
             const buffer = await ans.arrayBuffer();
             console.log('Se crea buffer y se ingresa en writeFileSync')
             // console.log(buffer);
             // ans.body.pipe(file);//Escribe la imagen que corresponde a la url
             fs.writeFileSync('tempImage.jpg', Buffer.from(buffer));
 
-            console.log('Termina primer then fetch: Descarga y escritura de Imagen ');
+            console.log('Termina Descarga y escritura de Imagen ');
             const tf = performance.now();
             console.log('*   tiempo de descarga:', Math.round(tf-t0), 'ms');
             
@@ -35,7 +35,7 @@ function fetching(url) {
         })
         .catch(err => console.error(err))
         
-    return res;
+    return await res;
 }
 // const https = require('https');
 
