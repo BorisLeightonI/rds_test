@@ -1,4 +1,5 @@
 // require('./testing_run_fetch_file');
+const fs = require('node:fs');
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
@@ -48,27 +49,46 @@ const port = process.env.PORT;
     
 // });
 
-app.post('/process-images', takeAndSendFile, runPython,(req, res)=>{
-    const { scores } = req.body;
-    res.status(200).json({message: 'Imagenes recibidas, almacenadas y analizadas', scores: JSON.parse(scores)})
+app.post('/process-images', takeAndSendFile, /* runPython, */(req, res)=>{
+    // const { scores } = req.body;
+    res.status(200).json({message: 'Imagenes recibidas, almacenadas y analizadas' })
+});
+app.post('/new-inspection', (req, res) => {
+    console.log(req.body);
+    const { fecha, patente } = req.body;
+    if(fecha&&patente&&!fs.existsSync(`./${patente}-${fecha}`)){
+        fs.mkdir(`./${patente}-${fecha}`)
+        res.status(200).json({message: 'Información recibida, carpeta no existe, se crea carpeta'+fecha+'-'+patente })
+    }else {
+        
+        res.status(200).json({message: 'Información recibida, carpeta existe: '+fecha+'-'+patente})
+    }
+
 });
 
 app.post('/process-img-url', (req, res)=> {
-    const fs = require('node:fs');
+    
     const fileName = 'tempImage_bordes.jpg';
     const { url } = req.body;
     console.log('url', url);
 
     fetching(url).then(()=>{
-        console.log('Después de Descarga de Imagen, dentro de callback (req, res)=>{} en server')
+        console.log('Después de Descarga y Análisis de Imagen, dentro de callback (req, res)=>{} en server')
+
+        do {
+            console.log('Esperando escritura de archivo analizado...')
+        } while (!fs.existsSync(fileName));
+
         const file = fs.createReadStream(fileName, {encoding: 'base64'});
         // file.pipe(res);
-    
+        
+        
         file.on('data', (chunk)=>{
             res.write(chunk);
         });
-        file.on('end', ()=>{
+        file.on('close', ()=>{
             console.log('stream end');
+            file.close();
             res.end();
         })
 
