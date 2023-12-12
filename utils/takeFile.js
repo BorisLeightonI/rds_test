@@ -4,15 +4,18 @@ const { createWriteStream } = require('node:fs');
 const takeAndSendFile = (req, res, next) =>{
     const bb = busboy({ headers: req.headers });
     req.pipe(bb);
+    const { fecha, patente } = req.headers.custom;
+    const carpeta = `./inspecciones/${patente}-${fecha}/`;
 
     bb.on('file', (name, file, info) => {
+      console.log('name from front-end: ', name);
       const { filename, encoding, mimeType } = info;
       console.log(`File [${filename}]: filename: %j, encoding: %j, mimeType: %j`,
         filename,
         encoding,
         mimeType
       );
-      file.pipe(createWriteStream(filename));
+      file.pipe(createWriteStream(carpeta+filename));
       file
       .on('data', (data) => {
         console.log(`File [${filename}] got ${data.length} bytes`);
