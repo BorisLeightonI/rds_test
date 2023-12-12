@@ -56,12 +56,37 @@ app.post('/process-images', takeAndSendFile, /* runPython, */(req, res)=>{
 app.post('/new-inspection', (req, res) => {
     console.log(req.body);
     const { fecha, patente } = req.body;
-    if(fecha&&patente&&!fs.existsSync(`./${patente}-${fecha}`)){
-        fs.mkdir(`./${patente}-${fecha}`)
-        res.status(200).json({message: 'Información recibida, carpeta no existe, se crea carpeta'+fecha+'-'+patente })
-    }else {
+
+    const carpetaBase = './inspecciones'; 
+    const archivoJson = carpetaBase + '/inspecciones.json';
+    const carpeta = `${carpetaBase}/${patente}-${fecha}/`;
+
+    if(fecha&&patente&&!fs.existsSync(carpeta)){
+        fs.mkdir(carpeta, {recursive: true}, (err)=>{
+            if(!err) {
+                console.log('Nueva Carpeta Creada: '+ carpeta);
+                const inspeccionesFile = fs.createWriteStream(archivoJson);
+                inspeccionesFile.write('[');
+                inspeccionesFile.write(JSON.stringify(req.body));
+                inspeccionesFile.write(']');
+                inspeccionesFile.close();
+            }
+        });
+        // res.status(200).json({message: 'Información recibida, se crea carpeta'+fecha+'-'+patente }) 
+    } else if(fecha&&patente&&fs.existsSync(carpeta)) {
+
+    }
+
+    if(!fs.existsSync(archivoJson)) {
         
-        res.status(200).json({message: 'Información recibida, carpeta existe: '+fecha+'-'+patente})
+    }else {
+        const inspeccionesFile = require(archivoJson);
+        console.log('ARCHIVO: ',inspeccionesFile);
+        inspeccionesFile.push(req.body);
+        const inspeccionesFileStream = fs.createWriteStream(archivoJson);
+        inspeccionesFileStream.write(JSON.stringify(inspeccionesFile));
+        inspeccionesFileStream.on('finish', ()=>inspeccionesFileStream.close());
+
     }
 
 });
