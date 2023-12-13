@@ -8,7 +8,7 @@ const path = require('node:path');
 const fetching = require('./testing_fetch_file');
 const runPython = require('./utils/run_python');
 
-// require('./testing_fetch_file');
+let carpetaDestinoImagenes = '';
 
 
 const app = express();
@@ -54,40 +54,51 @@ app.post('/process-images', takeAndSendFile, /* runPython, */(req, res)=>{
     res.status(200).json({message: 'Imagenes recibidas, almacenadas y analizadas' })
 });
 app.post('/new-inspection', (req, res) => {
-    console.log(req.body);
     const { fecha, patente } = req.body;
-
+    const date = new Date(fecha);
     const carpetaBase = './inspecciones'; 
     const archivoJson = carpetaBase + '/inspecciones.json';
-    const carpeta = `${carpetaBase}/${patente}-${fecha}/`;
+    const carpeta = `${carpetaBase}/${patente}-${date.toLocaleString().replaceAll(':','_')}`;
+    console.log('carpeta a crear: ',carpeta);
+    carpetaDestinoImagenes = carpeta;
 
-    if(fecha&&patente&&!fs.existsSync(carpeta)){
-        fs.mkdir(carpeta, {recursive: true}, (err)=>{
+    if(fecha&&patente&&!fs.existsSync(carpetaBase)){
+        fs.mkdir(carpetaBase, (err)=>{
             if(!err) {
-                console.log('Nueva Carpeta Creada: '+ carpeta);
-                const inspeccionesFile = fs.createWriteStream(archivoJson);
+                console.log('Nueva Carpeta Creada: '+ carpetaBase);
+                const inspeccionesFile = fs.createWriteStream(carpetaBase+'/inspecciones.json');
                 inspeccionesFile.write('[');
                 inspeccionesFile.write(JSON.stringify(req.body));
                 inspeccionesFile.write(']');
                 inspeccionesFile.close();
+
+                fs.mkdir(carpeta, {recursive: true}, (err)=>{ //Se crea la carpeta interior
+                    if(!err) console.log('Se crea carpeta interior');
+                });
+                
+                return res.status(200).json({message: 'Información recibida, se crea Archivo y carpeta'+fecha+'-'+patente });
+                
             }
         });
-        // res.status(200).json({message: 'Información recibida, se crea carpeta'+fecha+'-'+patente }) 
-    } else if(fecha&&patente&&fs.existsSync(carpeta)) {
+    } else if(fecha&&patente&&fs.existsSync(carpetaBase)) { //Ya existe la carpeta
 
+        if(fs.existsSync(archivoJson)) {
+            const inspeccionesFile = require(archivoJson);
+            // console.log('ARCHIVO: ',inspeccionesFile);
+            inspeccionesFile.push(req.body);
+            const inspeccionesFileStream = fs.createWriteStream(archivoJson);
+            inspeccionesFileStream.write(JSON.stringify(inspeccionesFile, null, 2));
+            inspeccionesFileStream.on('finish', ()=>{
+                inspeccionesFileStream.close()
+            }); 
+            fs.mkdir(carpeta, (err)=>{
+                if(!err) return res.status(201).json({message: 'Información recibida, se agrega info al archivo y se crea nueva carpeta de imágenes.' });
+                if(err) return res.status(200).json({message: 'Información recibida, se agrega info al archivo, no se crea nuevamente la carpeta.' });
+            })
+            
+        }
     }
 
-    if(!fs.existsSync(archivoJson)) {
-        
-    }else {
-        const inspeccionesFile = require(archivoJson);
-        console.log('ARCHIVO: ',inspeccionesFile);
-        inspeccionesFile.push(req.body);
-        const inspeccionesFileStream = fs.createWriteStream(archivoJson);
-        inspeccionesFileStream.write(JSON.stringify(inspeccionesFile));
-        inspeccionesFileStream.on('finish', ()=>inspeccionesFileStream.close());
-
-    }
 
 });
 
