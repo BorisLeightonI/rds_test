@@ -1,3 +1,5 @@
 node_modules
 dataset.json
 *.jpg
+*.png
+*.json

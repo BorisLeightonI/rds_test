@@ -7,6 +7,7 @@ const takeAndSendFile = require('./utils/takeFile');
 const path = require('node:path');
 const fetching = require('./testing_fetch_file');
 const runPython = require('./utils/run_python');
+const AnalizadorFisuras = require('./utils/run_AnalizadorFisuras');
 
 let carpetaDestinoImagenes = '';
 
@@ -14,6 +15,7 @@ let carpetaDestinoImagenes = '';
 const app = express();
 
 app.use(express.urlencoded({extended: true}));
+app.use(express.static('inspecciones'));
 app.use(cors());
 app.use(express.json());
 
@@ -48,7 +50,14 @@ const port = process.env.PORT;
 //     });
     
 // });
+app.get('/inspecciones/all', (req, res)=>{
+    if(fs.existsSync('./inspecciones/inspecciones.json')){
 
+        res.status(200).json({message: 'Archivo existe', data: require('./inspecciones/inspecciones.json')})
+    }else{
+        res.status(400).json({message: 'Archivo No existe'})
+    }
+});
 app.post('/process-images', takeAndSendFile, /* runPython, */(req, res)=>{
     // const { scores } = req.body;
     res.status(200).json({message: 'Imagenes recibidas, almacenadas y analizadas' })
@@ -101,8 +110,8 @@ app.post('/new-inspection', (req, res) => {
 
 
 });
-
-app.post('/process-img-url', (req, res)=> {
+/*Se responde de manera asíncrona una por una*/
+app.post('/process-img-url', (req, res)=> { //Se analiza una por una
     
     const fileName = 'tempImage_bordes.jpg';
     const { url } = req.body;
@@ -144,5 +153,12 @@ app.post('/process-img-url', (req, res)=> {
         res.status(400).json({error})
     }
 })
+
+/**Se envía una orden para ejecutar un analizador 
+ * y que escriba en servidor las imágenes resultantes */
+app.post('/analizar/fisuras', AnalizadorFisuras, (req, res)=>{
+    console.log('LOG PYTHON OUTPUT',req.body.python_output)
+    res.status(200).json({message: req.body.python_output })
+});
 
 const server = app.listen(443, ()=>console.log('Servidor escuchando peticiones http en puerto', server.address()))
