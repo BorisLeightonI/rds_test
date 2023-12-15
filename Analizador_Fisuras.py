@@ -1,11 +1,12 @@
 import os, sys, cv2, json
-extensión = '.png'
+extensión = ('.jpg', '.png')
 folder = sys.argv[1]
 baseUrl = './inspecciones/' + folder + '/'
 if not (os.path.exists(baseUrl+'Analizadas')):
     os.mkdir(baseUrl+'Analizadas')
 else:
-    sys.stdout.write('FIN PYTHON SCRIPT')
+    sys.stdout.write('FIN PYTHON SCRIPT init')
+    # Verificar si existen imágenes!!!
     sys.exit()
 
 for file in os.listdir(baseUrl):
