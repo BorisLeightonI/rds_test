@@ -1,11 +1,19 @@
 const { spawnSync } = require('child_process');
 
-function AnalizadorFisuras(req, res, next) {
-    const { folder } = req.body;
-    const python = spawnSync('python3', ['Analizador_Fisuras.py', folder, 'arg2']);
+function Analizador(req, res, next) {
+    const { folder, tipo_imagen } = req.body;
+    let file = '';
+
+    if(tipo_imagen==='normal'){
+        file = 'Analizador_Fisuras.py';
+    }else {
+        file = 'Analizador_Fotos_Termicas.py'
+    }
+
+    const python = spawnSync('python3', [file, folder, 'arg2']);
     req.body.python_output = python.stdout.toString();
     console.log(req.body.python_output);
     next();
 }
 
-module.exports = AnalizadorFisuras;
+module.exports = Analizador;
