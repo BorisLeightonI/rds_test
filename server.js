@@ -6,8 +6,7 @@ const cors = require('cors');
 const takeAndSendFile = require('./utils/takeFile');
 const path = require('node:path');
 const fetching = require('./testing_fetch_file');
-const runPython = require('./utils/run_python');
-const AnalizadorFisuras = require('./utils/run_AnalizadorFisuras');
+const Analizador = require('./utils/run_AnalizadorFisuras');
 
 let carpetaDestinoImagenes = '';
 
@@ -65,6 +64,8 @@ app.post('/process-images', takeAndSendFile, /* runPython, */(req, res)=>{
 app.post('/new-inspection', (req, res) => {
     const { fecha, patente } = req.body;
     const date = new Date(fecha);
+    console.log('DATE',date.toLocaleString());
+    console.log('DATE REPLACE :',date.toLocaleString().replaceAll(':','_'));
     const carpetaBase = './inspecciones'; 
     const archivoJson = carpetaBase + '/inspecciones.json';
     const carpeta = `${carpetaBase}/${patente}-${date.toLocaleString().replaceAll(':','_')}`;
@@ -83,6 +84,10 @@ app.post('/new-inspection', (req, res) => {
 
                 fs.mkdir(carpeta, {recursive: true}, (err)=>{ //Se crea la carpeta interior
                     if(!err) console.log('Se crea carpeta interior');
+                    if(err) {
+                        console.log('ERROR');
+                        console.log(err);
+                    }
                 });
                 
                 return res.status(200).json({message: 'Información recibida, se crea Archivo y carpeta'+fecha+'-'+patente });
@@ -156,7 +161,7 @@ app.post('/process-img-url', (req, res)=> { //Se analiza una por una
 
 /**Se envía una orden para ejecutar un analizador 
  * y que escriba en servidor las imágenes resultantes */
-app.post('/analizar/fisuras', AnalizadorFisuras, (req, res)=>{
+app.post('/analizar/fisuras', Analizador, (req, res)=>{
     console.log('LOG PYTHON OUTPUT',req.body.python_output)
     res.status(200).json({message: req.body.python_output })
 });
