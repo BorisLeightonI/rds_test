@@ -16,7 +16,13 @@ const takeAndSendFile = (req, res, next) =>{
         encoding,
         mimeType
       );
-      file.pipe(createWriteStream(carpeta+filename));
+      try {
+        file.pipe(createWriteStream(carpeta+filename));
+        
+      } catch (error) {
+        console.log('ERROR');
+        console.log(error);
+      }
     file
       .on('data', (data) => {
         console.log(`File [${filename}] got ${data.length} bytes`);
