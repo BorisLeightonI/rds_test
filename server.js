@@ -62,13 +62,14 @@ app.post('/process-images', takeAndSendFile, /* runPython, */(req, res)=>{
     res.status(200).json({message: 'Imagenes recibidas, almacenadas y analizadas' })
 });
 app.post('/new-inspection', (req, res) => {
-    const { fecha, patente } = req.body;
+    const { fecha, patente, fechaConFormato } = req.body;
     const date = new Date(fecha);
     console.log('DATE',date.toLocaleString());
     console.log('DATE REPLACE :',date.toLocaleString().replaceAll(':','_'));
     const carpetaBase = './inspecciones'; 
     const archivoJson = carpetaBase + '/inspecciones.json';
-    const carpeta = `${carpetaBase}/${patente}-${date.toLocaleString().replaceAll(':','_')}`;
+    // const carpeta = `${carpetaBase}/${patente}-${date.toLocaleString().replaceAll(':','_')}`;
+    const carpeta = `${carpetaBase}/${patente}-${fechaConFormato}`;
     console.log('carpeta a crear: ',carpeta);
     carpetaDestinoImagenes = carpeta;
 
