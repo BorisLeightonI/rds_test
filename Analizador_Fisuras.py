@@ -5,9 +5,11 @@ baseUrl = './inspecciones/' + folder + '/'
 if not (os.path.exists(baseUrl+'Analizadas')):
     os.mkdir(baseUrl+'Analizadas')
 else:
-    sys.stdout.write('FIN PYTHON SCRIPT init')
-    # Verificar si existen imágenes!!!
-    sys.exit()
+  Afiles = os.listdir(baseUrl+'Analizadas')
+  # Verificar si existen imágenes!!!
+  if Afiles.__len__()>0:
+    sys.stdout.write('ya existen archivos en carpeta Analizadas')
+    # sys.exit()
 
 for file in os.listdir(baseUrl):
     if file.endswith(extensión):
@@ -15,13 +17,13 @@ for file in os.listdir(baseUrl):
         img = cv2.imread(baseUrl+file)
         x, y = img.shape[:2]
         # print(x,y)
-        x_cut = x-100
-        img_cuted = img [0:x_cut, 0:y]
+        # x_cut = x-100
+        # img_cuted = img [0:x_cut, 0:y]
         # print('img cutted:',img_cuted.shape[:2])
-        blur = cv2.blur(img_cuted, (4, 4))
+        blur = cv2.blur(img, (5, 5))
         bordes = cv2.Canny(blur, 80, 200)
         contours, _ = cv2.findContours(bordes, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-        withContours=cv2.drawContours(img_cuted, contours, -1, (0,255,0), 3)
+        withContours=cv2.drawContours(img, contours, -1, (0,255,0), 3)
 
         # Obtener el contorno de más datos
         contour_len = 0
@@ -43,13 +45,13 @@ for file in os.listdir(baseUrl):
         font = cv2.FONT_HERSHEY_SIMPLEX 
         
         # org 
-        org = (cx-150, cy-10) 
+        org = (cx-200, cy-10) 
         
         # fontScale 
         fontScale = 1
         
         # Blue color in BGR 
-        color = (0, 255, 200) 
+        color = (0, 255, 100) 
         
         # Line thickness of 1px 
         thickness = 2

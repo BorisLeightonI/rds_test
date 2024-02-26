@@ -35,8 +35,8 @@ for file in files:
     imShape = img.shape[:]
     print('\timg shape',img.shape[:])
     print('\timGray shape',imGray.shape[:])
-    cv.circle(img, min_indx, 7, (0,255,0), 2)
-    cv.putText(img, 'Minimo gray_scale:'+str(min_val), min_indx, font, 0.5, (0,0,0), 2)
+    # cv.circle(img, min_indx, 7, (0,255,0), 2)
+    # cv.putText(img, 'Minimo gray_scale:'+str(min_val), min_indx, font, 0.5, (0,0,0), 2)
     # Filtro por Color entre rango mínimo y máximo
     mask_amarillo = cv.inRange(imHSV, amarillo_i, amarillo_f) #FILTRO AMARILLO
     # cv.imwrite(baseUrl+'Analizadas/'+'MASK_'+str(file), mask_amarillo)
@@ -47,7 +47,7 @@ for file in files:
     i = 0
     for contorno in contornos:
       area = cv.contourArea(contorno)
-      if area > 800: contornos_seleccionados.append(i)
+      if area > 500: contornos_seleccionados.append(i)
       i+=1
     print('\tcontornos_seleccionados', contornos_seleccionados)
     # print('Contorno 49', contornos[0])
@@ -83,7 +83,7 @@ for file in files:
       print('\tdibujando circulo y texto')
       print('\tMáximo Local', posicion_maximo_local, tuple(posicion_maximo_local))
       cv.circle(img, tuple(posicion_maximo_local), 7, (0,255,0), -1)
-      cv.putText(img, 'suma gray_scale:'+str(suma), tuple(posicion_maximo_local), font, 0.5, (0,0,0), 2)
+      cv.putText(img, 'gray_scale:'+str(suma), tuple(posicion_maximo_local), font, 0.5, (0,0,0), 2)
       print('\t circulo y texto dibujados')
     print('WRITE file ')
     cv.imwrite(baseUrl+'Analizadas/'+str(file), img)
